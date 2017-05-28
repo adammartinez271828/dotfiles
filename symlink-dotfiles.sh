@@ -11,6 +11,7 @@ DOTFILES=(
     ".githelpers"
     ".gitignore_global"
     ".tmux.conf"
+    ".vimrc"
 )
 
 for dotfile in ${DOTFILES[@]}; do
