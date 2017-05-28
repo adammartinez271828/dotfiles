@@ -15,5 +15,5 @@ DOTFILES=(
 )
 
 for dotfile in ${DOTFILES[@]}; do
-  ln -sf $DIR/$dotfile ~/$dotfile
+  ln -s $DIR/$dotfile ~/$dotfile
 done
