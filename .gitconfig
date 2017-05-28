@@ -1,0 +1,20 @@
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = vim
+	pager = less --chop-long-lines
+[push]
+	default = simple
+[user]
+	name = Adam Martinez
+	email = adam.paul.martinez@gmail.com
+[diff]
+	algorithm = patience
+[color]
+	ui = auto
+[alias]
+	ls = "!git ls-tree `git rev-parse --abbrev-ref HEAD` --name-only"
+	head = "!. ~/.githelpers && git_show_head"
+	plog = "!. ~/.githelpers && git_pretty_log"
+	recent = "!git plog -8"
+[gui]
+	fontdiff = -family Hack -size -12 -weight normal -slant roman -underline 0 -overstrike 0
