@@ -7,8 +7,9 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 DOTFILES=(
-    ".githelpers"
     ".gitconfig"
+    ".githelpers"
+    ".tmux.conf"
 )
 
 for dotfile in ${DOTFILES[@]}; do
