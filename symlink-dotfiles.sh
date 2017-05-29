@@ -5,6 +5,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 DOTFILES=(
+    ".bash_aliases"
     ".gitconfig"
     ".githelpers"
     ".gitignore_global"
