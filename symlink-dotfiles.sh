@@ -10,6 +10,7 @@ DOTFILES=(
     ".githelpers"
     ".gitignore_global"
     ".tmux.conf"
+    "vim"
     ".vimrc"
 )
 
