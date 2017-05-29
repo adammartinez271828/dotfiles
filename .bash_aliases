@@ -19,3 +19,6 @@ alias lesss='ls --color=always | less $LESSOPTS'
 alias lessl='ls -Agho --color=always | less $LESSOPTS'
 alias lesst='ls -Aghot --color=always | less $LESSOPTS'
 
+# Default to creating intermediate directories
+alias mkdir='mkdir -p'
+
