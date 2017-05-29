@@ -1,18 +1,22 @@
-" enable syntax highlighting
+" Enable syntax highlighting
 syntax enable
 
-" show a visual line under the cursor's current line
+" Show a visual line under the cursor's current line
 set cursorline
 
-" show the matching part of the pair for [] {} and ()
+" Show the matching part of the pair for [] {} and ()
 set showmatch
 
-" enable all Python syntax highlighting features
+" Enable all Python syntax highlighting features
 let python_highlight_all = 1
 
-" set colors for a dark background
+" Set colors for a dark background
 set background=dark
 
+" Set default text width
+set textwidth=79
+
+" Configuration for .py files
 autocmd BufNewFile,BufRead *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
@@ -22,3 +26,4 @@ autocmd BufNewFile,BufRead *.py
     \ set autoindent |
     \ set fileformat=unix |
     \ set number
+
