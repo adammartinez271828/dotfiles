@@ -29,6 +29,9 @@ set background=dark
 " Set default text width
 set textwidth=79
 
+" Press F9 to execute current buffer
+nnoremap <F9> :!%:p<Enter>
+
 " Configuration for .py files
 autocmd BufNewFile,BufRead *.py
     \ set tabstop=4 |
