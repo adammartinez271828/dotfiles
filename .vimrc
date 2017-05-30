@@ -26,8 +26,9 @@ let python_highlight_all = 1
 " Set colors for a dark background
 set background=dark
 
-" Set default text width
+" Set default text width and add vertical line
 set textwidth=79
+set colorcolumn=80
 
 " Press F9 to execute current buffer
 nnoremap <F9> :!%:p<Enter>
