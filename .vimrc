@@ -14,6 +14,10 @@ set laststatus=2
 " Enable syntax highlighting
 syntax enable
 
+" Default to utf-8, unix-style, allow reading of dos files
+set encoding=utf-8
+set fileformats=unix,dos
+
 " Show a visual line under the cursor's current line
 set cursorline
 
