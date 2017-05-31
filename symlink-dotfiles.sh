@@ -15,10 +15,10 @@ DOTFILES=(
 )
 
 for dotfile in ${DOTFILES[@]}; do
-  if [ -h ~/$dotfile ] ; then  # symlink
+  if [ -h ~/$dotfile ]; then  # symlink
     echo "~/$dotfile: overwriting existing symlink..."
-    ln -sf $DIR/$dotfile ~/$dotfile
-  elif [ -e ~/$dotfile ] ; then  # any other file
+    ln -snf $DIR/$dotfile ~/$dotfile
+  elif [ -e ~/$dotfile ]; then  # any other file
     echo "~/$dotfile: file exists, skipping..."
   else  # no file
     echo "~/$dotfile: creating symlink..."
