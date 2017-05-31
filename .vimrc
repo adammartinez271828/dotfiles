@@ -39,7 +39,7 @@ nnoremap <F9> :!%:p<Enter>
 
 " Configuration for .py files
 autocmd BufNewFile *.py
-    \ 0r ~/vim/python.skeleton
+    \ 0r ~/.vim/skeleton.py
 
 autocmd BufNewFile,BufRead *.py
     \ set tabstop=4 |
