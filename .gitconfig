@@ -13,8 +13,8 @@
 	ui = auto
 [alias]
 	ls = "!git ls-tree `git rev-parse --abbrev-ref HEAD` --name-only"
-	head = "!. ~/.githelpers && git_show_head"
-	plog = "!. ~/.githelpers && git_pretty_log"
+	head = show
+	plog = log --graph --oneline --decorate --all
 	recent = "!git plog -8"
 [gui]
 	fontdiff = -family Hack -size -12 -weight normal -slant roman -underline 0 -overstrike 0

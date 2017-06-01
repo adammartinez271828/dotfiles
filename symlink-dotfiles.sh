@@ -8,7 +8,6 @@ DOTFILES=(
     ".bash_aliases"
     ".bash_functions"
     ".gitconfig"
-    ".githelpers"
     ".gitignore_global"
     ".tmux.conf"
     ".vim"
