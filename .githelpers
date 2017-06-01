@@ -45,7 +45,7 @@ git_show_head() {
     HEADER=`GIT_NO_PAGER=1 git_pretty_log -1 --color=always`
     BODY=`git show -p --pretty="tformat:" --color=always`
     echo "$HEADER\n$BODY" |
-        less $LESSOPTS 
+        less $LESSOPTS
 }
 
 git_pretty_log() {
@@ -54,16 +54,16 @@ git_pretty_log() {
         sed -Ee 's/(^[^<]*) ago\)/\1)/' |
         # Replace (2 years, 5 months) with (2 years)
         sed -Ee 's/(^[^<]*), [[:digit:]]+ .*months?\)/\1)/' |
-	# Replace (years) with (y)
-	sed -Ee 's/years/y/' |
-	# Replace (hours) with (h)
-	sed -Ee 's/hours/h/' |
-	# Replace (minutes) with (m)
-	sed -Ee 's/minutes/m/' |
-	# Replace (seconds) with (s)
-	sed -Ee 's/seconds/s/' |
+	    # Replace (years) with (y)
+    	sed -Ee 's/years/y/' |
+	    # Replace (hours) with (h)
+    	sed -Ee 's/hours/h/' |
+	    # Replace (minutes) with (m)
+    	sed -Ee 's/minutes/m/' |
+	    # Replace (seconds) with (s)
+    	sed -Ee 's/seconds/s/' |
         # Line columns up based on \t delimiter
-        column -s '	' -t |	
+        column -s '	' -t |
         # Color merge commits specially
         sed -Ee "s/(Merge (branch|remote-tracking branch|pull request) .*$)/$(printf $ANSI_RED)\1$(printf $ANSI_RESET)/" |
         # Page only if we're asked to.
@@ -74,4 +74,3 @@ git_pretty_log() {
             less $LESSOPTS
         fi
 }
-

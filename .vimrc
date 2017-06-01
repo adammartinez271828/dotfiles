@@ -50,4 +50,3 @@ autocmd BufNewFile,BufRead *.py
     \ set autoindent |
     \ set fileformat=unix |
     \ set number
-
