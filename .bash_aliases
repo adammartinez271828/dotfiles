@@ -1,3 +1,10 @@
+#!/bin/bash
+
+# Chainload ~/.bash_functions
+if [ -e ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
+
 # Allow 'cls' instead of 'clear'
 alias cls='clear'
 
