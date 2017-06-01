@@ -30,8 +30,7 @@ let python_highlight_all = 1
 " Set colors for a dark background
 set background=dark
 
-" Set default text width and add vertical line
-set textwidth=79
+" Add vertical line
 set colorcolumn=80
 
 " Press F9 to execute current buffer
@@ -45,7 +44,6 @@ autocmd BufNewFile,BufRead *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
-    \ set textwidth=79 |
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix |
