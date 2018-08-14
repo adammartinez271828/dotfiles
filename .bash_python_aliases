@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# I would prefer to use Python3 in my terminals
+alias python=python3
+
+# Make using venv easier
+alias venv='python3 -m venv'
+
+# Make activating environments easier
+alias activate='source ./env/bin/activate'
+

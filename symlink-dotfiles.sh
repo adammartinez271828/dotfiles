@@ -7,6 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DOTFILES=(
     ".bash_aliases"
     ".bash_functions"
+    ".bash_python_aliases"
     ".gitconfig"
     ".gitignore_global"
     ".tmux.conf"
