@@ -25,3 +25,10 @@ for dotfile in ${DOTFILES[@]}; do
         ln -s $DIR/$dotfile ~/$dotfile
     fi
 done
+
+# Install vundle (required for the vim stuff)
+VUNDLE_GIT=https://github.com/VundleVim/Vundle.vim.git
+VUNDLE_TARGET=~/.vim/bundle/Vundle.vim
+if [ ! -d VUNDLE_TARGET ]l then
+    git clone $VUNDLE_GIT $VUNDLE_TARGET
+fi

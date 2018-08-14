@@ -1,0 +1,5 @@
+# .gitignore file for dotfiles repo
+# Don't confuse this with the .gitignore_global!
+
+# Ignore Vundle package files:
+.vim/bundle
