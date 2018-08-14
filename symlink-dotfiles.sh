@@ -29,6 +29,9 @@ done
 # Install vundle (required for the vim stuff)
 VUNDLE_GIT=https://github.com/VundleVim/Vundle.vim.git
 VUNDLE_TARGET=~/.vim/bundle/Vundle.vim
-if [ ! -d VUNDLE_TARGET ]l then
+if [ ! -d $VUNDLE_TARGET ]; then
+    echo "Installing Vundle..."
     git clone $VUNDLE_GIT $VUNDLE_TARGET
+else
+    echo "Vundle appears to already be installed."
 fi
