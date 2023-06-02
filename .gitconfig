@@ -18,3 +18,5 @@
 	recent = "!git plog -8"
 [gui]
 	fontdiff = -family Hack -size -12 -weight normal -slant roman -underline 0 -overstrike 0
+[init]
+	defaultBranch = master
