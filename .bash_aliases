@@ -13,8 +13,8 @@ alias egrep='egrep --color=auto'
 
 # Configure custom list command
 alias ls='ls --color=auto'
-alias ll='ls -Agho --color=auto'
-alias lt='ls -Aghot --color=auto'
+alias ll='ls -Alh --color=auto'
+alias lt='ls -Alht --color=auto'
 
 # Helpful for listing huge directories
 LESSOPTS="--RAW-CONTROL-CHARS --quit-if-one-screen --chop-long-lines --no-init"
