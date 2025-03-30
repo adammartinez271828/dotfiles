@@ -4,6 +4,7 @@
 	pager = less --chop-long-lines
 [push]
 	default = simple
+	autoSetupRemote = true
 [user]
 	name = Adam Martinez
 	email = adam.paul.martinez@gmail.com
