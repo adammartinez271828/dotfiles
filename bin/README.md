@@ -1,7 +1,8 @@
 # bin/
 
-Personal scripts. `symlink-dotfiles.sh` links every executable file in this
-directory into `~/.local/bin`, which is on `PATH`.
+Personal scripts. This is a stow package: `bin/.local/bin/<script>` is linked
+to `~/.local/bin/<script>` by `../install.sh` (or `stow bin`). Add new scripts
+under `bin/.local/bin/`, make them executable, then `stow -R bin`.
 
 ## claude-rc
 

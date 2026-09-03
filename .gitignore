@@ -1,5 +1,4 @@
-# .gitignore file for dotfiles repo
-# Don't confuse this with the .gitignore_global!
-
-# Ignore Vundle package files:
-.vim/bundle
+# vim-plug writes here only if ~/.vim was folded into the repo; --no-folding prevents that,
+# these are defensive.
+vim/.vim/plugged/
+vim/.vim/autoload/

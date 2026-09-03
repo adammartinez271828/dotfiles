@@ -1,0 +1,14 @@
+#!/bin/bash
+# Entry point for the dotfiles shell config. ~/.bashrc stays host-specific and
+# only needs this one line (install.sh appends it if missing):
+#
+#     [ -f ~/.bash_dotfiles ] && . ~/.bash_dotfiles
+#
+# .bash_aliases chainloads .bash_python_aliases and .bash_functions.
+# On Debian the stock .bashrc already sources .bash_aliases, so it may run
+# twice there; that is harmless (aliases and functions are idempotent).
+
+# Interactive shells only
+[[ $- != *i* ]] && return
+
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases

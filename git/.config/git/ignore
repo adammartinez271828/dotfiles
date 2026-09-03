@@ -1,0 +1,30 @@
+# Global gitignore (git reads ~/.config/git/ignore by default; no core.excludesfile needed).
+# Keep this short: only files that are never source in any project.
+
+# Claude Code per-machine overrides
+**/.claude/settings.local.json
+
+# Editor swap/undo/backup
+*.swp
+*.swo
+*~
+.netrwhist
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Tooling
+.idea/
+.vscode/
+.direnv/
+.env
