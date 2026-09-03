@@ -8,8 +8,8 @@ alias cls='clear'
 
 # Add some coloring to grep
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias fgrep='grep -F --color=auto'
+alias egrep='grep -E --color=auto'
 
 # Configure custom list command
 alias ls='ls --color=auto'

@@ -27,8 +27,7 @@
 [commit]
 	verbose = true
 [alias]
-	ls = ls-tree --name-only HEAD
-	head = show
+	ls = ls-files
 	plog = log --graph --oneline --decorate --all
 	recent = "!git plog -8"
 # Host-specific overrides (different email, signing key, ...). Untracked;

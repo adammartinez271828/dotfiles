@@ -3,9 +3,21 @@
 # I would prefer to use Python3 in my terminals
 alias python=python3
 
-# Make using venv easier
-alias venv='python3 -m venv'
+# venv [DIR] : create a virtualenv, defaulting to .venv
+venv() {
+    python3 -m venv "${1:-.venv}"
+}
 
-# Make activating environments easier
-alias activate='source ./env/bin/activate'
-
+# activate [DIR] : activate a virtualenv; tries .venv then env when no DIR given
+activate() {
+    local dir
+    for dir in "${1:-.venv}" env; do
+        if [ -f "$dir/bin/activate" ]; then
+            # shellcheck disable=SC1091
+            . "$dir/bin/activate"
+            return
+        fi
+    done
+    echo "activate: no virtualenv found (looked for ${1:-.venv}/ and env/)" >&2
+    return 1
+}
