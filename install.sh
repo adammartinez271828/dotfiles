@@ -51,7 +51,11 @@ done
 #    ~/.gitconfig) INTO the repo and links it back, so the difference shows up
 #    in `git status` for review instead of aborting with a conflict.
 if (( dry_run )); then
-    stow --simulate "${PACKAGES[@]}"
+    # Simulate with the same flags as the real run. Files a real run would
+    # adopt are not reported as conflicts; legacy symlinks are (the real run
+    # removes them first, see above), so a "not owned by stow" warning for a
+    # path listed as "removing legacy symlink" is expected.
+    stow --simulate --adopt "${PACKAGES[@]}" || true
     echo "dry run only; nothing changed"
     exit 0
 fi
