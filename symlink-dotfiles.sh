@@ -27,6 +27,22 @@ for dotfile in ${DOTFILES[@]}; do
     fi
 done
 
+# Symlink scripts in bin/ into ~/.local/bin (see bin/README.md)
+mkdir -p ~/.local/bin
+for script in $DIR/bin/*; do
+    [ -f "$script" ] && [ -x "$script" ] || continue
+    name=$(basename "$script")
+    if [ -h ~/.local/bin/$name ]; then
+        echo "~/.local/bin/$name: overwriting existing symlink..."
+        ln -snf "$script" ~/.local/bin/$name
+    elif [ -e ~/.local/bin/$name ]; then
+        echo "~/.local/bin/$name: file exists, skipping..."
+    else
+        echo "~/.local/bin/$name: creating symlink..."
+        ln -s "$script" ~/.local/bin/$name
+    fi
+done
+
 # Install vundle (required for the vim stuff)
 VUNDLE_GIT=https://github.com/VundleVim/Vundle.vim.git
 VUNDLE_TARGET=~/.vim/bundle/Vundle.vim

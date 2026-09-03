@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+# claude-rc — run `claude remote-control` servers in the background, one per folder.
+#
+# Each server lives in a detached tmux session named rc-<folder>, so it survives
+# closing your terminal and you can attach later to see the URL / QR code.
+#
+#   claude-rc start [DIR] [remote-control flags...]   start a server for DIR (default: cwd)
+#   claude-rc stop  [DIR|NAME]                        Ctrl+C the server (sessions resumable ~4h)
+#   claude-rc ls                                      list running servers
+#   claude-rc url   [DIR|NAME]                        print the session URL(s) shown by the server
+#   claude-rc attach [DIR|NAME]                       attach to the server's terminal (detach: Ctrl+B D)
+#   claude-rc restart [DIR|NAME]                      stop, then `claude remote-control` again in the same dir
+#
+# Flags after DIR go straight to `claude remote-control`, e.g.:
+#   claude-rc start ~/devel/home-dockerhost --spawn worktree --permission-mode acceptEdits
+#   claude-rc start . --continue        # bring back the sessions a stopped server was serving
+
+set -euo pipefail
+
+PREFIX="rc-"
+
+die() { printf 'claude-rc: %s\n' "$*" >&2; exit 1; }
+
+need_tmux() {
+    command -v tmux >/dev/null 2>&1 || die "tmux is required: sudo pacman -S tmux"
+}
+
+# Resolve a DIR or NAME argument to a tmux session name.
+# Falls back to the cwd when no argument is given.
+resolve() {
+    local arg="${1:-.}"
+    if [[ "$arg" == "$PREFIX"* ]] && tmux has-session -t "=$arg" 2>/dev/null; then
+        printf '%s' "$arg"
+    elif [[ -d "$arg" ]]; then
+        printf '%s%s' "$PREFIX" "$(basename "$(cd "$arg" && pwd -P)")"
+    elif tmux has-session -t "=$PREFIX$arg" 2>/dev/null; then
+        printf '%s%s' "$PREFIX" "$arg"
+    else
+        die "no directory or running server matches '$arg'"
+    fi
+}
+
+running() { tmux has-session -t "=$1" 2>/dev/null; }
+
+session_dir() {
+    tmux display-message -p -t "=$1:" '#{pane_current_path}' 2>/dev/null
+}
+
+cmd_start() {
+    need_tmux
+    local dir="."
+    # First arg is a directory unless it looks like a flag.
+    if [[ $# -gt 0 && "$1" != -* ]]; then dir="$1"; shift; fi
+    [[ -d "$dir" ]] || die "not a directory: $dir"
+    dir="$(cd "$dir" && pwd -P)"
+    [[ "$dir" == "$HOME" ]] && die "refusing to start in \$HOME (Claude Code never saves workspace trust for it); use a project folder"
+
+    local name; name="$(resolve "$dir")"
+    if running "$name"; then
+        echo "already running: $name ($(session_dir "$name"))"
+        cmd_url "$name" || true
+        return 0
+    fi
+
+    # Default --name to the folder name unless the caller gave one.
+    local args=("$@")
+    local has_name=0 has_spawn=0
+    for a in "${args[@]}"; do
+        [[ "$a" == --name  || "$a" == --name=*  ]] && has_name=1
+        [[ "$a" == --spawn || "$a" == --spawn=* || "$a" == --continue || "$a" == -c || "$a" == --session-id ]] && has_spawn=1
+    done
+    (( has_name )) || args=(--name "$(basename "$dir")" "${args[@]}")
+    # Without --spawn, claude asks interactively (same-dir vs worktree) and would
+    # block forever in the background, so pin the default explicitly.
+    (( has_spawn )) || args=(--spawn same-dir "${args[@]}")
+
+    tmux new-session -d -s "$name" -c "$dir" -- claude remote-control "${args[@]}"
+    echo "started $name in $dir"
+    echo "  attach: claude-rc attach $(basename "$dir")   (detach with Ctrl+B then D)"
+
+    # Give it a few seconds to print the session URL.
+    local i
+    for i in {1..20}; do
+        sleep 0.5
+        if cmd_url "$name" 2>/dev/null; then return 0; fi
+        running "$name" || { echo "server exited early; output was:"; return 1; }
+    done
+    echo "  (no URL yet — run: claude-rc url $(basename "$dir"))"
+}
+
+cmd_url() {
+    need_tmux
+    local name; name="$(resolve "${1:-.}")"
+    running "$name" || die "not running: $name"
+    local urls
+    urls="$(tmux capture-pane -p -J -t "=$name:" -S -200 \
+        | grep -oE 'https://claude\.ai/code(/[A-Za-z0-9_]+|\?environment=env_[A-Za-z0-9]+)' | sort -u)" || true
+    [[ -n "$urls" ]] || return 1
+    printf '  %s\n' $urls
+}
+
+cmd_stop() {
+    need_tmux
+    local name; name="$(resolve "${1:-.}")"
+    running "$name" || die "not running: $name"
+    # Ctrl+C lets claude shut down cleanly so its sessions stay resumable (~4h).
+    tmux send-keys -t "=$name:" C-c
+    local i
+    for i in {1..20}; do
+        running "$name" || { echo "stopped $name"; return 0; }
+        sleep 0.5
+    done
+    echo "still running after 10s; killing $name"
+    tmux kill-session -t "=$name"
+}
+
+cmd_ls() {
+    need_tmux
+    local any=0 s
+    while IFS= read -r s; do
+        [[ "$s" == "$PREFIX"* ]] || continue
+        any=1
+        printf '%-28s %s\n' "$s" "$(session_dir "$s")"
+        cmd_url "$s" 2>/dev/null || true
+    done < <(tmux list-sessions -F '#{session_name}' 2>/dev/null)
+    (( any )) || echo "no claude-rc servers running"
+}
+
+cmd_attach() {
+    need_tmux
+    local name; name="$(resolve "${1:-.}")"
+    running "$name" || die "not running: $name"
+    exec tmux attach-session -t "=$name"
+}
+
+cmd_restart() {
+    need_tmux
+    local name; name="$(resolve "${1:-.}")"
+    local dir; dir="$(session_dir "$name")" || die "not running: $name"
+    cmd_stop "$name"
+    shift || true
+    cmd_start "$dir" "$@"
+}
+
+usage() { sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'; }
+
+case "${1:-}" in
+    start)   shift; cmd_start "$@" ;;
+    stop)    shift; cmd_stop "$@" ;;
+    ls|list) shift; cmd_ls ;;
+    url)     shift; cmd_url "$@" || die "no session URL found yet" ;;
+    attach)  shift; cmd_attach "$@" ;;
+    restart) shift; cmd_restart "$@" ;;
+    -h|--help|help|"") usage ;;
+    *) die "unknown command: $1 (try: claude-rc help)" ;;
+esac
