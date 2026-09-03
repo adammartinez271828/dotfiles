@@ -1,19 +1,37 @@
-[core]
-	editor = vim
-	pager = less --chop-long-lines
-[push]
-	autoSetupRemote = true
 [user]
 	name = Adam Martinez
 	email = adam.paul.martinez@gmail.com
+[core]
+	editor = vim
+	pager = less --chop-long-lines
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[pull]
+	ff = only
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+[rerere]
+	enabled = true
 [diff]
-	algorithm = patience
+	algorithm = histogram
+[merge]
+	conflictStyle = zdiff3
+[branch]
+	sort = -committerdate
+[column]
+	ui = auto
+[commit]
+	verbose = true
 [alias]
 	ls = ls-tree --name-only HEAD
 	head = show
 	plog = log --graph --oneline --decorate --all
 	recent = "!git plog -8"
-[init]
-	defaultBranch = main
-[pull]
-	ff = only
+# Host-specific overrides (different email, signing key, ...). Untracked;
+# git skips it silently when absent.
+[include]
+	path = ~/.gitconfig.local

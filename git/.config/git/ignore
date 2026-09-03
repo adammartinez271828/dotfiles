@@ -28,3 +28,6 @@ env/
 .vscode/
 .direnv/
 .env
+
+# Host-specific git overrides, included from ~/.gitconfig
+.gitconfig.local
