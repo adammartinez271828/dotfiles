@@ -31,7 +31,7 @@ Each top-level directory is a stow package that mirrors `$HOME`:
 | `git/`   | `~/.gitconfig`, `~/.config/git/ignore` (global ignore)         |
 | `tmux/`  | `~/.tmux.conf`                                                 |
 | `vim/`   | `~/.vimrc` (vim-plug, self-bootstrapping), `~/.vim/colors/`    |
-| `claude/`| `~/.claude/settings.json`, `~/.claude/skills/`                 |
+| `claude/`| `~/.claude/skills/`                                            |
 | `bin/`   | `~/.local/bin/claude-rc` (see [bin/README.md](bin/README.md))  |
 
 `.stowrc` sets `--target=~ --no-folding`, so directories such as `~/.vim`,
@@ -45,10 +45,11 @@ symlinked. Plugins land in `~/.vim/plugged`, outside the repo.
 - Because of `--no-folding`, a file created directly in `~/.claude/skills/` or
   `~/.vim/colors/` is not tracked until you move it into the package and restow.
 - `~/.claude/CLAUDE.md` and `~/.claude/keybindings.json` belong in `claude/`
-  when they exist. Never add anything else from `~/.claude` (credentials,
-  history, projects, sessions, cache).
-- `settings.json` holds no secrets, but note git does not preserve its 0600
-  mode.
+  when they exist. `~/.claude/settings.json` is deliberately not tracked: it
+  is written by `/config` and `/auto-mode-setup`, holds per-machine and
+  per-project content, and Claude Code has no user-level local override file
+  to split it. Recreate it with `/config` on a new machine. Never add anything
+  else from `~/.claude` (credentials, history, projects, sessions, cache).
 
 ### Bash
 

@@ -26,7 +26,7 @@ shellcheck install.sh bin/.local/bin/claude-rc
 - **Bash loading chain:** `~/.bashrc` (host-specific, never tracked, never overwritten; install.sh appends one guarded source line) sources `.bash_dotfiles`, which sources `.bash_aliases`, which chains `.bash_python_aliases` then `.bash_functions`. New aliases go in `.bash_aliases`, functions in `.bash_functions`.
 - **Git:** the global ignore is `git/.config/git/ignore`, git's default excludes path, so `.gitconfig` sets no `core.excludesfile`. Keep it short; global ignores hide files in every repo.
 - **Vim:** `.vimrc` bootstraps vim-plug itself on first run (needs curl). Plugins are declared between `plug#begin` and `plug#end`; install headlessly with `vim -es -u ~/.vimrc -i NONE -c 'PlugInstall --sync' -c qa`.
-- **Claude:** `claude/.claude/` tracks only `settings.json` and `skills/`. `settings.json` must stay free of project-specific blocks (an `autoMode.environment` array was removed for that reason) and secrets. Per-machine overrides go in `settings.local.json`, which the global ignore excludes.
+- **Claude:** `claude/.claude/` tracks only `skills/`. `~/.claude/settings.json` is intentionally untracked (written by `/config` and `/auto-mode-setup`, per-machine, no user-level local override exists). Do not add it back.
 - **tmux:** prefix is `C-a`.
 
 ## bin/claude-rc
