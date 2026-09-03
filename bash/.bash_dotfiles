@@ -11,4 +11,11 @@
 # Interactive shells only
 [[ $- != *i* ]] && return
 
+# ~/.local/bin holds the scripts from bin/. Prepend once; .bashrc runs for
+# every interactive shell, so guard against duplicating the entry.
+case ":$PATH:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases
